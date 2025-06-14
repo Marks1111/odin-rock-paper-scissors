@@ -31,7 +31,7 @@ function getHumanChoice() {
     if (choice.toLowerCase() == "rock"
         || choice.toLowerCase() == "paper"
         || choice.toLowerCase() == "scissors") {
-            
+
         player1 = choice;
         return player1;
 
@@ -91,4 +91,11 @@ function playRound() {
     }
 }
 
+// Updating git branch tests
 
+function testFunction() {
+
+    console.log("This is a test function for TOP branch creation practice")
+
+
+}
