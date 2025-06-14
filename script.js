@@ -5,23 +5,41 @@ let round = 0;
 let playerWins = 0;
 let computerWins = 0;
 
-function getComputerChoice() {
+document.addEventListener("keydown", (e) => {
+    if (e.code == "Space") {
+        playRound();
+    }
+});
 
+
+
+function getComputerChoice() {
     const choice = ["Rock", "Paper", "Scissors"];
     player2 = choice[Math.floor(Math.random() * choice.length)];
     return player2;
-
 }
 
 
 function getHumanChoice() {
-
     const choice = prompt("Your move");
-    player1 = choice;
-    return player1;
 
+    if (choice.toLowerCase() == "end") {
+        alert("Game aborted")
+        return location.reload();
+    }
+
+    if (choice.toLowerCase() == "rock"
+        || choice.toLowerCase() == "paper"
+        || choice.toLowerCase() == "scissors") {
+            
+        player1 = choice;
+        return player1;
+
+    } else {
+        alert("Wrong Input!\n" + "Only Rock, Paper Or Scissors allowed!");
+        return getHumanChoice();
+    }
 }
-
 
 function compareChoices(humanChoice, computerChoice) {
 
@@ -53,7 +71,6 @@ function compareChoices(humanChoice, computerChoice) {
     }
 }
 
-
 function playRound() {
 
     for (let i = 0; i < 5; i++) {
@@ -73,8 +90,5 @@ function playRound() {
         console.log("Computer won the match");
     }
 }
-
-playRound();
-
 
 
