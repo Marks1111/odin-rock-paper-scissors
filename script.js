@@ -1,101 +1,82 @@
 
-let player1 = "";
-let player2 = "";
-let round = 0;
+// This is RockPaperScissorsv2.1a branch
+
+
 let playerWins = 0;
 let computerWins = 0;
+let ties = 0;
+let replayButtonAmount = 0;
+let done = true;
 
-document.addEventListener("keydown", (e) => {
-    if (e.code == "Space") {
-        playRound();
-    }
+const score = document.querySelector(".score");
+let buttons = Array.from(document.getElementsByClassName("buttons"));
+const roundResults = document.querySelector(".roundWonResults");
+const gameResults = document.querySelector(".gameWonResults");
+
+buttons.forEach(e => {
+    e.addEventListener("click", (e) => {
+        playRound(e);
+        buttons.forEach(e => {
+            e.addEventListener("click", e => {
+                if (e.target.textContent == "Replay") {
+                    location.reload();
+                }
+            })
+        });
+    });
 });
 
+function checkWins() {
+    if (playerWins == 5) {
+        gameResults.textContent = "Player won the game!";
+        addReplayButton();
+    } else if (computerWins == 5) {
+        gameResults.textContent = "Computer won the game!";
+        addReplayButton();
+    } else if (ties == 5 && ties > computerWins && ties > playerWins) {
+        gameResults.textContent = "No one won the game!";
+        addReplayButton();
+    }
+}
 
+function addReplayButton() {
+    done = false;
+    if (!(replayButtonAmount > 0)) {
+        const replay = document.querySelector(".replay");
+        const button4 = document.createElement("button");
+        button4.textContent = "Replay";
+        button4.className = "buttons";
+        replay.appendChild(button4);
+        buttons = Array.from(document.getElementsByClassName("buttons"));
+        replayButtonAmount++;
+    }
+}
+
+function playRound(e) {
+    if (done) {
+        compareChoices(e.target.textContent, getComputerChoice());
+        score.textContent = "Player score: " + playerWins + " Computer score: " + computerWins + " Ties: " + ties;
+        checkWins();
+    }
+}
 
 function getComputerChoice() {
     const choice = ["Rock", "Paper", "Scissors"];
-    player2 = choice[Math.floor(Math.random() * choice.length)];
-    return player2;
+    return choice[Math.floor(Math.random() * choice.length)];
 }
 
-
-function getHumanChoice() {
-    const choice = prompt("Your move");
-
-    if (choice.toLowerCase() == "end") {
-        alert("Game aborted")
-        return location.reload();
-    }
-
-    if (choice.toLowerCase() == "rock"
-        || choice.toLowerCase() == "paper"
-        || choice.toLowerCase() == "scissors") {
-
-        player1 = choice;
-        return player1;
-
-    } else {
-        alert("Wrong Input!\n" + "Only Rock, Paper Or Scissors allowed!");
-        return getHumanChoice();
-    }
-}
-
-function compareChoices(humanChoice, computerChoice) {
-
-    let humanCompare = humanChoice.toLowerCase();
-    let computerCompare = computerChoice.toLowerCase();
-
-    let humanResult = humanCompare[0].toUpperCase() + humanCompare.slice(1);
-    let computerResult = computerCompare[0].toUpperCase() + computerCompare.slice(1);
-
-    if ((humanCompare == "rock" && computerCompare == "scissors")
-        || (humanCompare == "scissors" && computerCompare == "paper")
-        || (humanCompare == "paper" && computerCompare == "rock")) {
-
+function compareChoices(humanResult, computerResult) {
+    if ((humanResult == "Rock" && computerResult == "Scissors")
+        || (humanResult == "Scissors" && computerResult == "Paper")
+        || (humanResult == "Paper" && computerResult == "Rock")) {
         playerWins++;
-        alert("You win " + humanResult + " beats " + computerResult);
-        console.log("You win " + humanResult + " beats " + computerResult);
+        roundResults.textContent = "You win " + humanResult + " beats " + computerResult;
     }
-
-
-    else if (humanCompare == computerCompare) {
-
-        alert("It's a tie");
-        console.log("It's a tie");
-
+    else if (humanResult == computerResult) {
+        ties++;
+        roundResults.textContent = "It's a tie";
     } else {
         computerWins++;
-        alert("You lost " + computerResult + " beats " + humanResult);
-        console.log("You lost " + computerResult + " beats " + humanResult);
+        roundResults.textContent = "You lost " + computerResult + " beats " + humanResult;
     }
-}
-
-function playRound() {
-
-    for (let i = 0; i < 5; i++) {
-
-        round++;
-        compareChoices(getHumanChoice(), getComputerChoice());
-
-        alert("Player score: " + playerWins + "\n" + "Computer score: " + computerWins + "\n" + "Round: " + round);
-        console.log("Player score: " + playerWins + "\n" + "Computer score: " + computerWins + "\n" + "Round: " + round);
-    }
-
-    if (playerWins > computerWins) {
-        alert("Player won the match");
-        console.log("Player won the match");
-    } else {
-        alert("Computer won the match");
-        console.log("Computer won the match");
-    }
-}
-
-// Updating git branch tests
-
-function testFunction() {
-
-    console.log("This is a test function for TOP branch creation practice")
-
-
 }

@@ -1,0 +1,37 @@
+* {
+
+    border: border-box;
+    width: auto;
+    height: auto;
+}
+
+.main-Div {
+
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.buttons {
+    background-color: moccasin;
+}
+
+
+
+
+
+.clicked {
+    background-color: cadetblue;
+}
+
+.roundWonResults,
+.gameWonResults,
+.replay,
+.score {
+    display: flex;
+    justify-content: center;
+    margin: 50px;
+}
